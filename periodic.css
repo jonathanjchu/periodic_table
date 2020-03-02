@@ -1,0 +1,181 @@
+body {
+    background-color: black;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+#periodic {
+    margin-top: 12px;
+    padding: 6px;
+    position: relative;
+}
+
+.row {
+    display: block;
+    min-height: 12px;
+}
+
+/****** individual element square *****/
+
+.element {
+    display: inline-block;
+    margin: 3px;
+    width: 62px;
+    height: 62px;
+    text-align: center;
+    vertical-align: top;
+    box-sizing: border-box;
+}
+
+.empty {
+    color: transparent;
+}
+
+.atomic_num {
+    font: bold 12px verdana, arial, sans-serif;
+    padding-top: 3px;
+}
+
+.symbol {
+    font: bold 20px verdana, arial, sans-serif;
+    vertical-align: middle;
+}
+
+.name, .atomic_mass {
+    font: 8px verdana, arial, sans-serif; 
+}
+
+/********* element groups ***********/
+
+.alkali_metal {
+    border: 1px solid #71e2bb;
+    color: #71e2bb;
+}
+
+.alkaline_earth_metal  {
+    border: 1px solid #f7913d;
+    color: #f7913d;
+}
+
+.transition_metal {
+    border: 1px solid #a3a3c2;
+    color: #a3a3c2;
+}
+
+.post-transition_metal {
+    border: 1px solid greenyellow;
+    color: greenyellow;
+}
+
+.metal {
+    border: 1px solid #aaa;
+    color: #aaa;
+}
+
+.metalloid {
+    border: 1px solid #5093fc;
+    color: #5093fc;
+}
+
+.lanthanoid {
+    border: 1px solid #d9dd5a;
+    color: #d9dd5a; 
+}
+
+.actinoid {
+    border: 1px solid #61dcf4;
+    color: #61dcf4;
+}
+
+.nonmetal {
+    border: 1px solid #ff9ba8;
+    color: #ff9ba8;
+}
+
+.halogen {
+    border: 1px solid #fc71c0;
+    color: #fc71c0;
+}
+
+.noble_gas {
+    border: 1px solid #ca59ff;
+    color: #ca59ff;
+}
+
+/************* info block ***************/
+#info {
+    position: absolute;
+    top: 0;
+    left: 230px;
+    height: 200px;
+    width: 540px;
+    text-align: center;
+    padding: 6px;
+    box-sizing: border-box;
+    display: none;
+    border: 0;
+}
+
+#big_element {
+    border-width: 3px;
+    border-style: solid;
+    position: relative;
+    height: 180px;
+    width: 180px;
+    display: inline-block;
+}
+
+#side_info {
+    display: inline-block;
+    height: 180px;
+    width: 280px;
+    text-align: left;
+    font: 14px verdana, arial, sans-serif; 
+    margin: 24px;
+    vertical-align: top;
+}
+
+#info .atomic_num {
+    font: bold 24px verdana, arial, sans-serif;
+}
+
+#info .symbol {
+    font: bold 56px verdana, arial, sans-serif;
+}
+
+#info .name, #info .atomic_mass{
+    font: 16px verdana, arial, sans-serif; 
+    padding: 6px;
+}
+/* 
+#info .atomic_radius, #info .melting_point, #info .boiling_point, #info .discovery {
+    font: 14px verdana, arial, sans-serif; 
+} */
+
+#info .grouping {
+    text-transform: capitalize;
+}
+
+
+#info a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.ox_states {
+    display: inline-block;
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    font: 100 16px arial, sans-serif; 
+    text-align: right;
+}
+
+/******** specific elements *********/
+#H {
+    color: white;
+    border-color: white;
+}

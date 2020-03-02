@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Periodic Table</title>
+    <link href="periodic.css" rel="stylesheet" />
+    <script type="text/javascript" src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+</head>
+
+<body>
+    <div id="periodic">
+        <div id="info">
+            <a href="#!" target="_blank">
+                <div id="big_element">
+                    <h3 class="atomic_num"></h3>
+                    <h2 class="symbol"></h2>
+                    <h3 class="name"></h3>
+                    <h3 class="atomic_mass"></h3>
+                    <div class="ox_states"></div>
+
+                </div>
+            </a>
+            <div id="side_info">
+                <p class="grouping"></p>
+                <p class="atomic_radius"></p>
+                <p class="melting_point"></p>
+                <p class="boiling_point"></p>
+                <p class="ionization_energy"></p>
+                <p class="discovery"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $.getJSON(`https://neelpatel05.pythonanywhere.com`, function (data) {
+            console.log(data);
+
+            var count = 1;
+            var output = "";
+            var lanthanoids = `<div class="row"><div class="element empty"></div><div class="element empty"></div>`;
+            var actinoids = `<div class="row"><div class="element empty"></div><div class="element empty"></div>`;
+
+            data.forEach(function (ele, idx) {
+                let eleOut = "";
+
+                switch (ele.atomicNumber) {
+                    case 2: // helium
+                        // shift helium to right
+                        for (var i = 0; i < 16; i++) {
+                            eleOut += `<div class="element empty"></div>`;
+                        }
+                        break;
+                    case 5:
+                    case 13:
+                        // shift second and third rows
+                        for (var i = 0; i < 10; i++) {
+                            eleOut += `<div class="element empty"></div>`;
+                        }
+                        break;
+                    case 57:    // lanthanum
+                        // add placeholder for lanthanoids
+                        output += `<div class="element lanthanoid name">Lanthanoids</div>`;
+                        break;
+                    case 89:    // actinum
+                        // add placeholder for actinoids
+                        output += `<div class="element actinoid name">Actinoids</div>`;
+                        break;
+                    case 103:   // lawrencium
+                        // change lawrencium to actinoid (Lr's grouping is up for debate)
+                        ele.groupBlock = "actinoid";
+                        break;
+                }
+
+                let groupBlock = ele.groupBlock.replace(/ /g, "_");
+
+                // start new row
+                if (groupBlock == "alkali_metal" || ele.name == "Hydrogen") {
+                    eleOut += `<div class="row">`;
+                }
+
+                // add element
+                eleOut +=
+                    `<div class="element ${groupBlock}" id="${ele.symbol}"
+                        onclick="showInfo('${ele.name}',
+                            '${ele.symbol}',
+                            ${ele.atomicNumber},
+                            '${ele.atomicMass}',
+                            '${ele.groupBlock}',
+                            '${ele.oxidationStates}',
+                            '${ele.atomicRadius}',
+                            '${ele.meltingPoint}',
+                            '${ele.boilingPoint}',
+                            '${ele.ionizationEnergy}',
+                            '${ele.yearDiscovered}');">
+                        <h5 class="atomic_num">
+                            ${ele.atomicNumber}
+                        </h5>
+                        <h2 class="symbol">
+                            ${ele.symbol}
+                        </h2>
+                        <h5 class="name">
+                            ${ele.name}
+                        </h5>
+                    </div>`;
+
+                // console.log(ele.name);
+
+                // end row
+                if (groupBlock == "noble_gas" || ele.name == "Helium") {
+                    eleOut += `</div>`;
+                }
+
+                if (groupBlock == "lanthanoid") {
+                    lanthanoids += eleOut;
+                }
+                else if (ele.groupBlock == "actinoid") {
+                    actinoids += eleOut;
+                }
+                else {
+                    output += eleOut;
+                }
+
+                count++;
+            });
+
+            $('#periodic').append(output);
+            $('#periodic').append(`<div class="row"></div>`);
+            $('#periodic').append(lanthanoids + "</div>");
+            $('#periodic').append(actinoids + "</div>");
+        });
+
+        function showInfo(name,
+            symbol,
+            atomicNum,
+            atomicMass,
+            group,
+            oxidationStates,
+            atomicRadius,
+            meltingPoint,
+            boilingPoint,
+            ionizationEnergy,
+            discovery) {
+            let ox = oxidationStates.split(", ");
+            let groupBlock = group.replace(/ /g, "_");
+
+            $('#info').css('display', 'block');
+            $('#info').attr('class', groupBlock);
+            $('#info .atomic_num').text(atomicNum);
+            $('#info .name').text(name);
+            $('#big_element').parent().attr('href', `https://en.wikipedia.org/wiki/${name}`);
+            $('#info .symbol').text(symbol);
+            $('#info .atomic_mass').text(atomicMass);
+
+            // oxidation states
+            $('#info .ox_states').empty();
+            ox.forEach(function (x) {
+                $('#info .ox_states').append(`<h5>${x}</h5>`);
+            });
+
+            $('#info .grouping').text(group);
+
+            // following properties are only shown if the value is known
+            if (atomicRadius != "") {
+                $('#info .atomic_radius').css('display', 'block');
+                $('#info .atomic_radius').text("Atomic Radius: " + atomicRadius + " pm");
+            }
+            else {
+                $('#info .atomic_radius').css('display', 'none');
+            }
+
+            if (meltingPoint != "") {
+                $('#info .melting_point').css('display', 'block');
+                $('#info .melting_point').text("Melting Point: " + meltingPoint + " K");
+            }
+            else {
+                $('#info .meltingPoint').css('display', 'none');
+            }
+
+            if (boilingPoint != "") {
+                $('#info .boiling_point').css('display', 'block');
+                $('#info .boiling_point').text("Boiling Point: " + boilingPoint + " K");
+            }
+            else {
+                $('#info .boiling_point').css('display', 'none');
+            }
+
+            if (ionizationEnergy != "") {
+                $('#info .ionization_energy').css('display', 'block');
+                $('#info .ionization_energy').text("Ionization Energy: " + ionizationEnergy + " kJ/mol");
+            }
+            else {
+                $('#info .ionization_energy').css('display', 'none');
+            }
+
+            if (discovery != "Ancient") {
+                $('#info .discovery').css('display', 'block');
+                $('#info .discovery').text("Year Discovered: " + discovery);
+            }
+            else {
+                $('#info .discovery').css('display', 'none');
+            }
+        }
+    </script>
+</body>
+
+</html>
